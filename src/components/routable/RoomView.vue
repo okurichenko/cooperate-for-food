@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Room view</h1>
+  <div class="room-view">
+    <h3>Room view</h3>
   </div>
 </template>
 
