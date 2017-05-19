@@ -15,11 +15,6 @@ export default new Router({
       component: RoomsList
     },
     {
-      path: '/:id',
-      name: 'room-view',
-      component: RoomView
-    },
-    {
       path: '/add',
       name: 'room-add',
       component: RoomAdd
@@ -28,6 +23,11 @@ export default new Router({
       path: '/sign-in',
       name: 'sign-in',
       component: SignIn
+    },
+    {
+      path: '/:id',
+      name: 'room-view',
+      component: RoomView
     }
   ]
 })

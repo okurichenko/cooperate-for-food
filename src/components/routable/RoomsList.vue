@@ -4,15 +4,25 @@
     <hr>
     <router-link v-for="(room, index) in rooms" tag="div" :key="index" :to="{ name: 'room-view', params: { id: room['.key'] }}" class="panel panel-primary">
       <div class="panel-body">
-        {{room.title}} - {{index}}
+        <h4>{{room.title}}</h4>
+        <app-room-info-field label="Description" :value="room.description"></app-room-info-field>
+        <app-room-info-field label="Indoor" :value="room.indoor?'Indoor':'Out'"></app-room-info-field>
+        <app-room-info-field label="Place" :value="room.place.name"></app-room-info-field>
+        <app-room-info-field label="Time" :value="room.timeArranged | formattedDate"></app-room-info-field>
+        <app-room-info-field label="Comment" :value="room.comment"></app-room-info-field>
       </div>
     </router-link>
   </div>
 </template>
 
 <script>
+  import RoomInfoField from '@/components/non-routable/RoomInfoField'
+
   export default {
     name: 'rooms-list',
+    components: {
+      appRoomInfoField: RoomInfoField
+    },
     computed: {
       rooms () {
         return this.$store.state.rooms

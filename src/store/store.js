@@ -11,17 +11,21 @@ const db = firebaseApp.database()
 export default new Vuex.Store({
   state: {
     rooms: null,
-    user: null
+    user: null,
+    company: null
   },
   mutations: {
-    ...VuexFire.mutations,
-    setUser (state, value) {
-      state.user = value
-    }
+    ...VuexFire.mutations
   },
   actions: {
     createRoom (store, room) {
       return db.ref('/rooms').push(room)
+    },
+    addRoom (store, room) {
+      return db.ref(`/${store.state.company}/rooms`).push(room)
+    },
+    addMessage (store, [roomId, message]) {
+      return db.ref(`/${store.state.company}/rooms/${roomId}/discussion`).push(message)
     }
   },
   getters: {
