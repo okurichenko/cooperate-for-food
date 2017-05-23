@@ -79,7 +79,8 @@
           orderItems: [],
           discussion: [],
           deliveryPrice: 0,
-          comment: ''
+          comment: '',
+          locked: false
         },
         time: '',
         googlePlace: null
@@ -97,7 +98,9 @@
         const [hours, minutes] = this.time.split(':')
         this.room.timeCreated = moment().format()
         this.room.timeArranged = moment().startOf('day').hours(hours).minutes(minutes).format()
-        this.$store.dispatch('addRoom', this.room)
+        this.$store.dispatch('addRoom', this.room).then(() => {
+          this.$router.replace('/')
+        })
       },
       googlePlaceChanged (place) {
         this.room.place.googleId = place.place_id

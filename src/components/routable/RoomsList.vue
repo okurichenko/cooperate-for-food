@@ -16,6 +16,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   import RoomInfoField from '@/components/non-routable/RoomInfoField'
 
   export default {
@@ -25,7 +26,10 @@
     },
     computed: {
       rooms () {
-        return this.$store.state.rooms
+        const now = moment()
+        return this.$store.state.rooms.filter((room) => {
+          return now.isSameOrBefore(moment(room.timeArranged))
+        })
       }
     }
   }

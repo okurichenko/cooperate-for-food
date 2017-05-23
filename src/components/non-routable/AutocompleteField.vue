@@ -12,7 +12,6 @@
       }
     },
     mounted () {
-      console.log(this.$store.state.user.accessToken)
       this.autocomplete = new window.google.maps.places.Autocomplete(this.$refs.input, {
         types: ['establishment'],
         componentRestrictions: {country: 'ua'}

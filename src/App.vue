@@ -1,10 +1,8 @@
 <template>
   <div id="app" class="container">
+    <app-notifications-bar></app-notifications-bar>
     <div class="row">
       <div class="col-xs-12">
-        <div>
-          <button class="btn btn-danger" @click="logout">Logout</button>
-        </div>
         <router-view></router-view>
       </div>
     </div>
@@ -14,9 +12,13 @@
 <script>
 import firebaseApp from '@/store/firebase'
 import { mapState } from 'vuex'
+import NotificationsBar from '@/components/non-routable/NotificationsBar'
 
 export default {
   name: 'app',
+  components: {
+    appNotificationsBar: NotificationsBar
+  },
   computed: {
     ...mapState(['user'])
   },
