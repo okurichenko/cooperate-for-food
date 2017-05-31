@@ -20,7 +20,7 @@
     name: 'sign-in',
     data () {
       return {
-        company: '',
+        company: 'lits',
         companyApproved: false,
         isSearching: false
       }
