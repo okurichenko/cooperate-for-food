@@ -21,7 +21,7 @@
     data () {
       return {
         company: 'lits',
-        companyApproved: false,
+        companyApproved: true,
         isSearching: false
       }
     },
