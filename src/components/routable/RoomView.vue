@@ -126,7 +126,7 @@
   }
 </script>
 
-<style scope>
+<style scoped>
   .room-view {
     height: 80vh;
   }

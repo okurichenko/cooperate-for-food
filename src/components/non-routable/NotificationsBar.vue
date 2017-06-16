@@ -18,7 +18,7 @@
   }
 </script>
 
-<style scope>
+<style scoped>
   #notifications-wrapper {
     position: fixed;
     top: 1rem;

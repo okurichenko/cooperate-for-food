@@ -27,7 +27,7 @@
   }
 </script>
 
-<style scope>
+<style scoped>
   .chat-window {
     height: calc(80vh - 3rem);
     overflow: auto;
