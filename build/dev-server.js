@@ -11,6 +11,8 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+var http = require('http')
+var request = require('request')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -60,6 +62,39 @@ app.use(hotMiddleware)
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+
+/*
+* @TODO - this is needed to serve Service Worker script
+* in should be available at `/firebase-messaging-sw.js` - some firebase SDK magic :)
+*/
+app.use('/', express.static('./static'))
+
+// @TODO - part below should be implemented in Cloud Functions (not it only works for development)
+const FCM_KEY = 'AAAA8D8qjWA:APA91bHKK6zWGVE1PIyt5KRjB13sqEqtFNQMZGdLgu5S3CN-da-gCpVd-PicoN7VoVMP3YZvqEpb0zEQ1UUGQke8V4iVZ9HZ7mZ75uCGNaN3ga1ScfmXWtm9HJTVoz_xstBGjuns5-0E'
+app.post('/send', (req, res, next) => {
+  request('https://fcm.googleapis.com/fcm/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `key=${FCM_KEY}`,
+    },
+    body: JSON.stringify({
+      to: `/topics/${req.query.topic}`,
+      notification: ({
+       body: req.query.body,
+       title: req.query.title,
+       icon: req.query.icon
+     })
+    })
+  }, (err, response, body) => {
+    console.log('FCM request done:')
+    if (err) {
+      return console.error(err)
+    }
+    console.log(body)
+  })
+})
+
 app.use(staticPath, express.static('./static'))
 
 var uri = 'http://localhost:' + port
