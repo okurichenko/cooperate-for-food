@@ -10,7 +10,7 @@ import VueResource from 'vue-resource'
 import moment from 'moment'
 
 import { initNotifications } from './services/messages-notifcation'
-window.store = store
+
 Vue.use(VueResource)
 
 Vue.config.productionTip = false

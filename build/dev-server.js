@@ -69,7 +69,7 @@ var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsS
 */
 app.use('/', express.static('./static'))
 
-// @TODO - part below should be implemented in Cloud Functions (not it only works for development)
+// @TODO - part below should be implemented in Cloud Functions (it only works for development)
 const FCM_KEY = 'AAAA8D8qjWA:APA91bHKK6zWGVE1PIyt5KRjB13sqEqtFNQMZGdLgu5S3CN-da-gCpVd-PicoN7VoVMP3YZvqEpb0zEQ1UUGQke8V4iVZ9HZ7mZ75uCGNaN3ga1ScfmXWtm9HJTVoz_xstBGjuns5-0E'
 app.post('/send', (req, res, next) => {
   request('https://fcm.googleapis.com/fcm/send', {
