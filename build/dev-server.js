@@ -89,9 +89,9 @@ app.post('/send', (req, res, next) => {
   }, (err, response, body) => {
     console.log('FCM request done:')
     if (err) {
-      return console.error(err)
+      return next(err)
     }
-    console.log(body)
+    res.send(body)
   })
 })
 
