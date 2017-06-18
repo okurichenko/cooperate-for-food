@@ -22,18 +22,13 @@ export default {
   computed: {
     ...mapState(['user'])
   },
-  methods: {
-    logout () {
-      firebaseApp.auth().signOut()
-    }
-  },
   beforeCreate () {
     firebaseApp.auth().onAuthStateChanged((user) => {
 //       initially user = null, after auth it will be either <fb_user> or false
       if (user && this.$route.path === '/sign-in') {
-        this.$router.replace('/')
+        this.$router.replace({ name: 'room-list' })
       } else if (!user && this.$route.path !== '/sign-in') {
-        this.$router.replace('/sign-in')
+        this.$router.replace({ name: 'sign-in' })
       }
     })
   }
