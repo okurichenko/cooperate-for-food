@@ -9,7 +9,7 @@ import firebaseApp from './store/firebase'
 import VueResource from 'vue-resource'
 import moment from 'moment'
 
-import { initNotifications } from './services/messages-notifcation'
+import { subscribeToNotifications, unsubscribeFromNotifications } from './services/messages-notifcation'
 
 Vue.use(VueResource)
 
@@ -32,8 +32,10 @@ firebaseApp.auth().onAuthStateChanged((user) => {
     promise = user.getToken().then((token) => {
       store.state.accessToken = token
     })
-    initNotifications(company)
+    subscribeToNotifications(company)
     firebase.rooms = db.ref(`/${company}/rooms`)
+  } else {
+    unsubscribeFromNotifications()
   }
 
   return promise.then(() => {

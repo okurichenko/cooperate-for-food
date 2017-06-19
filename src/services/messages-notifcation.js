@@ -14,29 +14,20 @@ const FCM_KEY = 'AAAA8D8qjWA:APA91bHKK6zWGVE1PIyt5KRjB13sqEqtFNQMZGdLgu5S3CN-da-
 * @param {String} company
 * @return undefined
 */
-export const initNotifications = (company) => {
+export const subscribeToNotifications = (company) => {
   messaging.requestPermission()
   .then(() => messaging.getToken())
   .then((currentToken) => {
     if (currentToken) {
       console.log('currentToken:', currentToken)
-      subscribeTokenToTopic(currentToken, company)
+      return fetch(`https://iid.googleapis.com/iid/v1/${currentToken}/rel/topics/${company}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `key=${FCM_KEY}`
+        }
+      })
     } else {
-      console.log('No Instance ID token available. Request permission to generate one.')
-    }
-  })
-  .catch((err) => console.log('Unable to get permission to notify.', err))
-
-  messaging.onMessage((payload) => {
-    console.log('receive online message:', payload) // @TODO - handle it somehow
-  })
-}
-
-const subscribeTokenToTopic = (token, topic) => {
-  return fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/${topic}`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `key=${FCM_KEY}`
+      throw new Error('No Instance ID token available. Request permission to generate one.')
     }
   })
   .then(response => {
@@ -45,7 +36,24 @@ const subscribeTokenToTopic = (token, topic) => {
         throw new Error(err)
       })
     }
-    console.log(`Subscribed to "${topic}"`)
+    console.log(`Subscribed to "${company}"`)
   })
   .catch(error => console.error(error))
+
+  messaging.onMessage((payload) => {
+    console.log('receive online message:', payload) // @TODO - handle it somehow
+  })
+}
+
+export const unsubscribeFromNotifications = () => {
+  messaging.getToken()
+  .then(currentToken => {
+    if (currentToken) {
+      return messaging.deleteToken(currentToken)
+    }
+    console.log('User has no token currently')
+  })
+  .then(() => {
+    console.log('User has been unsubscribed')
+  })
 }

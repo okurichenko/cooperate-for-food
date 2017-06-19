@@ -12,7 +12,6 @@ const options = {
 }
 admin.initializeApp(options)
 
-
 exports.check_company = functions.https.onRequest((request, response) => {
   response.set({
     'Access-Control-Allow-Origin': request.get('Origin'),
