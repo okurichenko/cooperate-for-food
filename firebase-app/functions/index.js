@@ -40,9 +40,12 @@ exports.sendRoomNotification = functions.database.ref('/{company/rooms/{roomId}'
   const room = event.data.val();
 
   const payload = {
-    body: room.comment,
-    title: `New room ${room.title}`,
-    icon: null
+    data: room,
+    notification: {
+      body: room.comment,
+      title: `New room ${room.title}`,
+      icon: null
+    }
   }
 
   return admin.messaging().sendToTopic(topic, payload)
