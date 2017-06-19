@@ -1,6 +1,6 @@
 import firebase from '../store/firebase'
 const messaging = firebase.messaging()
-
+window.firebase = firebase
 /*
 * @TODO - This key shouldn't be in the code
 * It is needed both for server and client, maybe set it into environment variable
@@ -48,20 +48,4 @@ const subscribeTokenToTopic = (token, topic) => {
     console.log(`Subscribed to "${topic}"`)
   })
   .catch(error => console.error(error))
-}
-/*
-* @param {String} companyName
-* @param {String} userName
-* @param {String} userIcon
-* @param {String} roomName
-*/
-export const sendNewRoom = (companyName, userName, userIcon, roomName) => {
-  // @TODO - probably want to send data in body
-  // (implement this when server will be ready at Cloud Functions)
-  fetch(`/send?title=${encodeURI('New Room')}&body=${encodeURI(userName + ' has added new room, check it out: "' + roomName + '"')}&icon=${encodeURI(userIcon)}&topic=${encodeURI(companyName)}`, {
-    method: 'POST'
-  })
-  .then(r => r.json())
-  .then(console.log.bind(console))
-  .catch(console.error.bind(console))
 }

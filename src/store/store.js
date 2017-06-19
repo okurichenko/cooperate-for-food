@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexFire from 'vuexfire'
 import firebaseApp from '@/store/firebase'
-import { sendNewRoom } from '../services/messages-notifcation'
 
 Vue.use(Vuex)
 Vue.use(VuexFire)
@@ -23,7 +22,6 @@ export default new Vuex.Store({
       return db.ref('/rooms').push(room)
     },
     addRoom (store, room) {
-      sendNewRoom(store.state.company, store.state.user.displayName, store.state.user.photoURL, room.title)
       return db.ref(`/${store.state.company}/rooms`).push(room)
     },
     addMessage (store, [roomId, message]) {

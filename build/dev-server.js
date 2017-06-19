@@ -11,7 +11,6 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
-var https = require('https')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -61,48 +60,6 @@ app.use(hotMiddleware)
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
-
-// @TODO - part below should be implemented in Cloud Functions (it only works for development)
-const FCM_KEY = 'AAAA8D8qjWA:APA91bHKK6zWGVE1PIyt5KRjB13sqEqtFNQMZGdLgu5S3CN-da-gCpVd-PicoN7VoVMP3YZvqEpb0zEQ1UUGQke8V4iVZ9HZ7mZ75uCGNaN3ga1ScfmXWtm9HJTVoz_xstBGjuns5-0E'
-app.post('/send', (req, res, next) => {
-
-  const body = JSON.stringify({
-    to: `/topics/${req.query.topic}`,
-    notification: ({
-     body: req.query.body,
-     title: req.query.title,
-     icon: req.query.icon
-    })
-  })
-
-  const request = https.request({
-    hostname: 'fcm.googleapis.com',
-    path: '/fcm/send',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `key=${FCM_KEY}`,
-    },
-  }, (resp) => {
-    resp.setEncoding('utf8')
-    let data = ''
-    resp.on('data', (chunk) => {
-      data += chunk
-    });
-    resp.on('end', () => {
-      res.status(resp.statusCode).send({
-      request: body,
-      headers: JSON.stringify(resp.headers),
-      response: data
-    })
-    });
-  })
-
-  request.write(body)
-  request.end()
-
-})
-app.use('/', express.static('./static'))
 app.use(staticPath, express.static('./static'))
 
 var uri = 'http://localhost:' + port
