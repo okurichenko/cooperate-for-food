@@ -41,7 +41,7 @@ export const subscribeToNotifications = (company) => {
   .catch(error => console.error(error))
 
   messaging.onMessage((payload) => {
-    console.log('receive online message:', payload) // @TODO - handle it somehow
+    console.log('Receive message in foreground:', payload) // @TODO - handle it somehow
   })
 }
 
