@@ -33,17 +33,15 @@ exports.check_company = functions.https.onRequest((request, response) => {
  * Triggers when a user creates a new room and sends a notification.
  *
  */
-exports.sendRoomNotification = functions.database.ref('/{company/rooms/{roomId}').onWrite(event => {
+exports.sendRoomNotification = functions.database.ref('/{company}/rooms/{roomId}').onWrite(event => {
 
   const company = event.params.company
   const room = event.data.val();
 
   const payload = {
-    data: room,
     notification: {
       body: room.comment,
-      title: `New room ${room.title}`,
-      icon: null
+      title: `New room ${room.title}`
     }
   }
 
