@@ -48,6 +48,6 @@ exports.sendRoomNotification = functions.database.ref('/{company/rooms/{roomId}'
     }
   }
 
-  return admin.messaging().sendToTopic(topic, payload)
+  return admin.messaging().sendToTopic(company, payload)
 
 });
