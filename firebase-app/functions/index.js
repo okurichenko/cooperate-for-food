@@ -38,13 +38,13 @@ exports.sendRoomNotification = functions.database.ref('/{company}/rooms/{roomId}
   const company = event.params.company
   const room = event.data.val();
 
-  const payload = {
-    notification: {
-      body: room.comment,
-      title: `New room ${room.title}`
-    }
-  }
-
-  return admin.messaging().sendToTopic(company, payload)
+  return admin.auth().getUser(room.hostId)
+  .then(user => admin.messaging().sendToTopic(company, {
+      notification: {
+        icon: user.photoURL,
+        body: room.description,
+        title: `${user.displayName} created a new room: "${room.title}"`
+      }
+    }))
 
 });
