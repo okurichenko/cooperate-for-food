@@ -12,7 +12,6 @@ const options = {
 }
 admin.initializeApp(options)
 
-
 exports.check_company = functions.https.onRequest((request, response) => {
   response.set({
     'Access-Control-Allow-Origin': request.get('Origin'),
@@ -29,3 +28,23 @@ exports.check_company = functions.https.onRequest((request, response) => {
   }
   return response.status(400).send()
 })
+
+/**
+ * Triggers when a user creates a new room and sends a notification.
+ *
+ */
+exports.sendRoomNotification = functions.database.ref('/{company}/rooms/{roomId}').onWrite(event => {
+
+  const company = event.params.company
+  const room = event.data.val();
+
+  const payload = {
+    notification: {
+      body: room.comment,
+      title: `New room ${room.title}`
+    }
+  }
+
+  return admin.messaging().sendToTopic(company, payload)
+
+});

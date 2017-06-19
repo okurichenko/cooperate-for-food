@@ -3,6 +3,10 @@
     "public": "public",
     "rewrites": [
       {
+        "source": "/firebase-messaging-sw.js",
+        "destination": "/static/firebase-messaging-sw.js"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
