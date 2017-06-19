@@ -8,7 +8,6 @@ import store from './store/store'
 import firebaseApp from './store/firebase'
 import VueResource from 'vue-resource'
 import moment from 'moment'
-
 import { subscribeToNotifications, unsubscribeFromNotifications } from './services/messages-notifcation'
 
 Vue.use(VueResource)

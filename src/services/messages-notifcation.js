@@ -1,9 +1,8 @@
 import firebase from '../store/firebase'
 const messaging = firebase.messaging()
-window.firebase = firebase
+
 /*
 * @TODO - This key shouldn't be in the code
-* It is needed both for server and client, maybe set it into environment variable
 */
 const FCM_KEY = 'AAAA8D8qjWA:APA91bHKK6zWGVE1PIyt5KRjB13sqEqtFNQMZGdLgu5S3CN-da-gCpVd-PicoN7VoVMP3YZvqEpb0zEQ1UUGQke8V4iVZ9HZ7mZ75uCGNaN3ga1ScfmXWtm9HJTVoz_xstBGjuns5-0E'
 
@@ -45,6 +44,9 @@ export const subscribeToNotifications = (company) => {
   })
 }
 
+/*
+* Unsubscribe from notifications
+*/
 export const unsubscribeFromNotifications = () => {
   messaging.getToken()
   .then(currentToken => {
